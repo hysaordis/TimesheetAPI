@@ -150,16 +150,16 @@ namespace TimesheetAPI.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d30c0692-82bd-4c2e-8305-894d17b31031",
+                            ConcurrencyStamp = "1e46f534-e10c-4d68-b09f-438c86383b90",
                             Email = "admin@commit.it",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@commit.it",
                             NormalizedUserName = "Admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ2akB4KNPchsAmWvkfez2+Y7M9UlgLbPvYwTX9ehgPvzWUXqgfgnKfJ0Cuy1O04yQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIvwpE4EG76ekn5f3Mx3WcXyBgYSVz8HaP7Q2+GnhlyOECHu3o/bj5on8Pmvm9vPaA==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "57050861-c3ad-4940-b9b6-cb7e77462159",
+                            SecurityStamp = "cb8777e4-943a-427a-a765-44a1bf3a7dfb",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -335,6 +335,7 @@ namespace TimesheetAPI.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("EmployeesId")
+                        .IsRequired()
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("Hours")
@@ -442,7 +443,9 @@ namespace TimesheetAPI.Migrations
 
                     b.HasOne("TimesheetAPI.Model.DbModels.ApplicationUser", "Employees")
                         .WithMany("Timesheets")
-                        .HasForeignKey("EmployeesId");
+                        .HasForeignKey("EmployeesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TimesheetAPI.Repositories.DBModels.Project", "Project")
                         .WithMany("Timesheets")

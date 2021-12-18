@@ -231,7 +231,7 @@ namespace TimesheetAPI.Migrations
                     ActivityTypeId = table.Column<int>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     Hours = table.Column<int>(nullable: false),
-                    EmployeesId = table.Column<string>(nullable: true)
+                    EmployeesId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -247,7 +247,7 @@ namespace TimesheetAPI.Migrations
                         column: x => x.EmployeesId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Timesheets_Projects_ProjectId",
                         column: x => x.ProjectId,
@@ -269,7 +269,7 @@ namespace TimesheetAPI.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "b74ddd14-6340-4840-95c2-db12554843e5", 0, "d30c0692-82bd-4c2e-8305-894d17b31031", "admin@commit.it", true, false, null, "admin@commit.it", "Admin", "AQAAAAEAACcQAAAAEJ2akB4KNPchsAmWvkfez2+Y7M9UlgLbPvYwTX9ehgPvzWUXqgfgnKfJ0Cuy1O04yQ==", "1234567890", false, "57050861-c3ad-4940-b9b6-cb7e77462159", false, "Admin" });
+                values: new object[] { "b74ddd14-6340-4840-95c2-db12554843e5", 0, "1e46f534-e10c-4d68-b09f-438c86383b90", "admin@commit.it", true, false, null, "admin@commit.it", "Admin", "AQAAAAEAACcQAAAAEIvwpE4EG76ekn5f3Mx3WcXyBgYSVz8HaP7Q2+GnhlyOECHu3o/bj5on8Pmvm9vPaA==", "1234567890", false, "cb8777e4-943a-427a-a765-44a1bf3a7dfb", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
