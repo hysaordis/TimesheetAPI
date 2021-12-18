@@ -1,6 +1,6 @@
-namespace TimesheetAPI.Services.Filters
+namespace TimesheetAPI.Dto
 {
-    public class SearchTimesheet
+    public class SearchTimesheetQuery
     {
         public string UserId { get; set; }
         public string ProjectId { get; set; }
