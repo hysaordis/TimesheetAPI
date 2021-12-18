@@ -200,19 +200,18 @@ namespace TimesheetAPI.Migrations
                 name: "EmployeeProjects",
                 columns: table => new
                 {
-                    ApplicationUserId = table.Column<int>(nullable: false),
-                    ProjectId = table.Column<int>(nullable: false),
-                    ApplicationUserId1 = table.Column<string>(nullable: true)
+                    ApplicationUserId = table.Column<string>(nullable: false),
+                    ProjectId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EmployeeProjects", x => new { x.ApplicationUserId, x.ProjectId });
                     table.ForeignKey(
-                        name: "FK_EmployeeProjects_AspNetUsers_ApplicationUserId1",
-                        column: x => x.ApplicationUserId1,
+                        name: "FK_EmployeeProjects_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EmployeeProjects_Projects_ProjectId",
                         column: x => x.ProjectId,
@@ -269,7 +268,7 @@ namespace TimesheetAPI.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "b74ddd14-6340-4840-95c2-db12554843e5", 0, "1e46f534-e10c-4d68-b09f-438c86383b90", "admin@commit.it", true, false, null, "admin@commit.it", "Admin", "AQAAAAEAACcQAAAAEIvwpE4EG76ekn5f3Mx3WcXyBgYSVz8HaP7Q2+GnhlyOECHu3o/bj5on8Pmvm9vPaA==", "1234567890", false, "cb8777e4-943a-427a-a765-44a1bf3a7dfb", false, "Admin" });
+                values: new object[] { "b74ddd14-6340-4840-95c2-db12554843e5", 0, "31e2e11c-4c0c-4a7a-8206-03e556c03641", "admin@commit.it", true, false, null, "admin@commit.it", "Admin", "AQAAAAEAACcQAAAAEEdOQZwikqUxW/sLwD+t4+qvEhhj2CpKAuXpOz7AAn5VTnRImo2nJ0MYneZ7UKpvMQ==", "1234567890", false, "ab881ca8-cdca-43ac-bc7b-24fa9d749518", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -322,11 +321,6 @@ namespace TimesheetAPI.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmployeeProjects_ApplicationUserId1",
-                table: "EmployeeProjects",
-                column: "ApplicationUserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeeProjects_ProjectId",

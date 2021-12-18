@@ -9,7 +9,7 @@ using TimesheetAPI.api.Repositories;
 namespace TimesheetAPI.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20211218161121_init")]
+    [Migration("20211218225420_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,16 +152,16 @@ namespace TimesheetAPI.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1e46f534-e10c-4d68-b09f-438c86383b90",
+                            ConcurrencyStamp = "31e2e11c-4c0c-4a7a-8206-03e556c03641",
                             Email = "admin@commit.it",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@commit.it",
                             NormalizedUserName = "Admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIvwpE4EG76ekn5f3Mx3WcXyBgYSVz8HaP7Q2+GnhlyOECHu3o/bj5on8Pmvm9vPaA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEdOQZwikqUxW/sLwD+t4+qvEhhj2CpKAuXpOz7AAn5VTnRImo2nJ0MYneZ7UKpvMQ==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cb8777e4-943a-427a-a765-44a1bf3a7dfb",
+                            SecurityStamp = "ab881ca8-cdca-43ac-bc7b-24fa9d749518",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -283,18 +283,13 @@ namespace TimesheetAPI.Migrations
 
             modelBuilder.Entity("TimesheetAPI.Repositories.DBModels.EmployeeProject", b =>
                 {
-                    b.Property<int>("ApplicationUserId")
-                        .HasColumnType("int");
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ApplicationUserId1")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
                     b.HasKey("ApplicationUserId", "ProjectId");
-
-                    b.HasIndex("ApplicationUserId1");
 
                     b.HasIndex("ProjectId");
 
@@ -426,7 +421,9 @@ namespace TimesheetAPI.Migrations
                 {
                     b.HasOne("TimesheetAPI.Model.DbModels.ApplicationUser", "ApplicationUser")
                         .WithMany("EmployeeProjects")
-                        .HasForeignKey("ApplicationUserId1");
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TimesheetAPI.Repositories.DBModels.Project", "Project")
                         .WithMany("EmployeeProjects")
