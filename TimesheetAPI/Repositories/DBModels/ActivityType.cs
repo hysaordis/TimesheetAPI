@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TimesheetAPI.Model.DbModels;
 
 namespace TimesheetAPI.Repositories.DBModels
 {
@@ -8,25 +9,8 @@ namespace TimesheetAPI.Repositories.DBModels
         public string Description { get; set; }
         public int ProjectId { get; set; }
         public Project Project { get; set; }
-        public virtual ICollection<Timesheet> Timesheets { get; set; }
-
-        public ActivityType()
-        {
-            Timesheets = new List<Timesheet>();
-        }
-
-        public ActivityType(string description, int projectId)
-        {
-            Description = description;
-            ProjectId = projectId;
-            Timesheets = new List<Timesheet>();
-        }
-
-        public ActivityType(string description, int projectId, ICollection<Timesheet> timesheets)
-        {
-            Description = description;
-            ProjectId = projectId;
-            Timesheets = timesheets;
-        }
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser Employee { get; set; }
+        public virtual Timesheet Timesheet { get; set; }
     }
 }

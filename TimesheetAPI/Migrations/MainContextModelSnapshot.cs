@@ -150,16 +150,16 @@ namespace TimesheetAPI.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "78515114-58fa-4d7d-867f-184f6edec827",
+                            ConcurrencyStamp = "d30c0692-82bd-4c2e-8305-894d17b31031",
                             Email = "admin@commit.it",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@commit.it",
                             NormalizedUserName = "Admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJAWB4AoRldem8mUSu9qwnyRHS8myt7Tp4oDU61FETDAoLgRLE+tLeVevK6jReaNcg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ2akB4KNPchsAmWvkfez2+Y7M9UlgLbPvYwTX9ehgPvzWUXqgfgnKfJ0Cuy1O04yQ==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0bcbf754-53cd-43d9-ac93-00fda7e3b0b1",
+                            SecurityStamp = "57050861-c3ad-4940-b9b6-cb7e77462159",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -255,6 +255,106 @@ namespace TimesheetAPI.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("TimesheetAPI.Repositories.DBModels.ActivityType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ActivityTypes");
+                });
+
+            modelBuilder.Entity("TimesheetAPI.Repositories.DBModels.EmployeeProject", b =>
+                {
+                    b.Property<int>("ApplicationUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApplicationUserId1")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.HasKey("ApplicationUserId", "ProjectId");
+
+                    b.HasIndex("ApplicationUserId1");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("EmployeeProjects");
+                });
+
+            modelBuilder.Entity("TimesheetAPI.Repositories.DBModels.Project", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("TimesheetAPI.Repositories.DBModels.Timesheet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ActivityTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("EmployeesId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<int>("Hours")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityTypeId")
+                        .IsUnique();
+
+                    b.HasIndex("EmployeesId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Timesheets");
+                });
+
             modelBuilder.Entity("TimesheetAPI.Model.DbModels.ApplicationRoleClaim", b =>
                 {
                     b.HasOne("TimesheetAPI.Model.DbModels.ApplicationRole", "Role")
@@ -302,6 +402,51 @@ namespace TimesheetAPI.Migrations
                     b.HasOne("TimesheetAPI.Model.DbModels.ApplicationUser", "User")
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TimesheetAPI.Repositories.DBModels.ActivityType", b =>
+                {
+                    b.HasOne("TimesheetAPI.Model.DbModels.ApplicationUser", "Employee")
+                        .WithMany("ActivityTypes")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("TimesheetAPI.Repositories.DBModels.Project", "Project")
+                        .WithMany("ActivityTypes")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TimesheetAPI.Repositories.DBModels.EmployeeProject", b =>
+                {
+                    b.HasOne("TimesheetAPI.Model.DbModels.ApplicationUser", "ApplicationUser")
+                        .WithMany("EmployeeProjects")
+                        .HasForeignKey("ApplicationUserId1");
+
+                    b.HasOne("TimesheetAPI.Repositories.DBModels.Project", "Project")
+                        .WithMany("EmployeeProjects")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TimesheetAPI.Repositories.DBModels.Timesheet", b =>
+                {
+                    b.HasOne("TimesheetAPI.Repositories.DBModels.ActivityType", "ActivityType")
+                        .WithOne("Timesheet")
+                        .HasForeignKey("TimesheetAPI.Repositories.DBModels.Timesheet", "ActivityTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TimesheetAPI.Model.DbModels.ApplicationUser", "Employees")
+                        .WithMany("Timesheets")
+                        .HasForeignKey("EmployeesId");
+
+                    b.HasOne("TimesheetAPI.Repositories.DBModels.Project", "Project")
+                        .WithMany("Timesheets")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

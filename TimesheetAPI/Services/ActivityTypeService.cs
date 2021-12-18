@@ -25,123 +25,29 @@ namespace TimesheetAPI.Services
             _timesheetRepository = timesheetRepository;
         }
 
-        public Task<ActivityType> AssignProjectToActivityType(ActivityType activityType, Project project)
-        {
-            if (activityType == null || project == null)
-            {
-                return null;
-            }
-
-            activityType.Project = project;
-            // save to db
-            _activityTypeRepository.Update(activityType);
-
-            return Task.FromResult(activityType);
-        }
-
-        public Task<ActivityType> AddTimesheetToActivityType(ActivityType activityType, Timesheet timesheet)
-        {
-            if (activityType == null || timesheet == null)
-            {
-                return null;
-            }
-
-            activityType.Timesheets.Add(timesheet);
-            // save to db
-            _activityTypeRepository.Update(activityType);
-
-            return Task.FromResult(activityType);
-        }
-
         public Task<ActivityType> CreateActivityType(ActivityType activityType)
         {
-            if (activityType == null)
-            {
-                return null;
-            }
-
-            // save to db
-            _activityTypeRepository.Create(activityType);
-
-            return Task.FromResult(activityType);
+            throw new System.NotImplementedException();
         }
 
         public Task<ActivityType> DeleteActivityType(ActivityType activityType)
         {
-            if (activityType == null)
-            {
-                return null;
-            }
-
-            // save to db
-            _activityTypeRepository.Delete(activityType);
-
-            return Task.FromResult(activityType);
+            throw new System.NotImplementedException();
         }
 
         public Task<ActivityType> GetActivityTypeById(ApplicationUser user, int id)
         {
-            if (user == null)
-            {
-                return null;
-            }
-
-            var activityType = _activityTypeRepository.Find(id);
-
-            return Task.FromResult(activityType);
+            throw new System.NotImplementedException();
         }
 
         public Task<List<ActivityType>> GetActivityTypes(ApplicationUser user)
         {
-            if (user == null)
-            {
-                return null;
-            }
-
-            var activityTypes = _activityTypeRepository.GetAll();
-
-            return Task.FromResult(activityTypes.ToList());
-        }
-
-        public Task<ActivityType> RemoveProjectFromActivityType(ActivityType activityType, Project project)
-        {
-            if (activityType == null || project == null)
-            {
-                return null;
-            }
-
-            activityType.Project = null;
-            // save to db
-            _activityTypeRepository.Update(activityType);
-
-            return Task.FromResult(activityType);
-        }
-
-        public Task<ActivityType> RemoveTimesheetFromActivityType(ActivityType activityType, Timesheet timesheet)
-        {
-            if (activityType == null || timesheet == null)
-            {
-                return null;
-            }
-
-            activityType.Timesheets.Remove(timesheet);
-            // save to db
-            _activityTypeRepository.Update(activityType);
-
-            return Task.FromResult(activityType);
+            throw new System.NotImplementedException();
         }
 
         public Task<ActivityType> UpdateActivityType(ActivityType activityType)
         {
-            if (activityType == null)
-            {
-                return null;
-            }
-
-            // save to db
-            _activityTypeRepository.Update(activityType);
-
-            return Task.FromResult(activityType);
+            throw new System.NotImplementedException();
         }
     }
 }

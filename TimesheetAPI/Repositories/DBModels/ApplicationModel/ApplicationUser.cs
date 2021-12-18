@@ -46,6 +46,6 @@ namespace TimesheetAPI.Model.DbModels
         // add other properties for business requirements
         public virtual ICollection<ActivityType> ActivityTypes { get; set; }
         public virtual ICollection<Timesheet> Timesheets { get; set; }
-        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<EmployeeProject> EmployeeProjects { get; set; }
     }
 }

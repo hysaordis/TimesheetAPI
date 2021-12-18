@@ -19,6 +19,7 @@ namespace TimesheetAPI.api.Repositories
         public DbSet<Project> Projects { get; set; }
         public DbSet<ActivityType> ActivityTypes { get; set; }
         public DbSet<Timesheet> Timesheets { get; set; }
+        public DbSet<EmployeeProject> EmployeeProjects { get; set; }
 
         public MainContext(DbContextOptions<MainContext> options) : base(options) { }
 
@@ -51,6 +52,9 @@ namespace TimesheetAPI.api.Repositories
                 .WithOne(e => e.User)
                 .HasForeignKey(ur => ur.UserId)
                 .IsRequired();
+
+                // relationships between tables ApplicationUser and Project
+                modelBuilder.Entity<EmployeeProject>().HasKey(sc => new { sc.ApplicationUserId, sc.ProjectId });
             });
 
             modelBuilder.Entity<ApplicationRole>(role =>

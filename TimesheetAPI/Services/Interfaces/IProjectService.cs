@@ -13,17 +13,5 @@ namespace TimesheetAPI.Services.Interfaces
         Task<Project> CreateProject(Project project);
         Task<Project> UpdateProject(Project project);
         Task<Project> DeleteProject(Project project);
-        // add Employee to Project
-        Task<Project> AddEmployeeToProject(Project project, ApplicationUser employee);
-        // remove Employee from Project
-        Task<Project> RemoveEmployeeFromProject(Project project, ApplicationUser employee);
-        // add ActivityType to Project
-        Task<Project> AddActivityTypeToProject(Project project, ActivityType activityType);
-        // remove ActivityType from Project
-        Task<Project> RemoveActivityTypeFromProject(Project project, ActivityType activityType);
-        // add Timesheet to Project
-        Task<Project> AddTimesheetToProject(Project project, Timesheet timesheet);
-        // remove Timesheet from Project
-        Task<Project> RemoveTimesheetFromProject(Project project, Timesheet timesheet);
     }
 }
