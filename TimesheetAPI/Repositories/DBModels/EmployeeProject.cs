@@ -2,7 +2,6 @@ using TimesheetAPI.Model.DbModels;
 
 namespace TimesheetAPI.Repositories.DBModels
 {
-    // create join table ApplicationUser-Project
     public class EmployeeProject
     {
         public int ApplicationUserId { get; set; }

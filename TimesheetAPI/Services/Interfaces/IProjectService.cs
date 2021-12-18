@@ -13,5 +13,8 @@ namespace TimesheetAPI.Services.Interfaces
         Task<Project> CreateProject(Project project);
         Task<Project> UpdateProject(Project project);
         Task<Project> DeleteProject(Project project);
+
+        // add Employee to Project
+        Task<EmployeeProject> AddEmployeeToProject(ApplicationUser user, Project project);
     }
 }

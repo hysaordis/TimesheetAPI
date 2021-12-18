@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TimesheetAPI.Model.DbModels;
 
 namespace TimesheetAPI.Repositories.DBModels
 {
