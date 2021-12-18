@@ -11,8 +11,8 @@ namespace TimesheetAPI.Services.Interfaces
         Task<List<Project>> GetProjects(ApplicationUser user);
         Task<Project> GetProjectById(ApplicationUser user, int id);
         Task<Project> CreateProject(Project project);
-        Task<Project> UpdateProject(Project project);
-        Task<Project> DeleteProject(Project project);
+        Task<bool> UpdateProject(Project project);
+        Task<bool> DeleteProject(Project project);
 
         // add Employee to Project
         Task<EmployeeProject> AddEmployeeToProject(ApplicationUser user, Project project);
