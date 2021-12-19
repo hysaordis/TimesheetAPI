@@ -7,17 +7,20 @@ using TimesheetAPI.Model.DbModels;
 using TimesheetAPI.Repositories.DBModels;
 using TimesheetAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using TimesheetAPI.Repositories;
+using TimesheetAPI.api.Repositories.Interfaces;
 
 namespace TimesheetAPI.Services
 {
     public class ProjectService : IProjectService
     {
-        private readonly RawCRUDRepository<int, Project> _projectRepository;
-        private readonly RawCRUDRepository<int, EmployeeProject> _employeeProjectRepository;
+        private readonly ICRUDRepository<int, Project> _projectRepository;
+        private readonly ICRUDRepository<int, EmployeeProject> _employeeProjectRepository;
         private readonly UserManager<ApplicationUser> _userManager;
-        public ProjectService(RawCRUDRepository<int, Project> projectRepository,
+
+        public ProjectService(ICRUDRepository<int, Project> projectRepository,
                                 UserManager<ApplicationUser> userManager,
-                                RawCRUDRepository<int, EmployeeProject> employeeProjectRepository)
+                                ICRUDRepository<int, EmployeeProject> employeeProjectRepository)
         {
             _projectRepository = projectRepository;
             _userManager = userManager;
@@ -53,15 +56,20 @@ namespace TimesheetAPI.Services
 
         public Task<List<Project>> GetProjects(ApplicationUser user)
         {
+            // Get user roles of the user
+            var roles = _userManager.GetRolesAsync(user).Result;
             // If user is admin, return all projects
-            if (user.UserRoles.Any(x => x.Role.Name == "Admin"))
+            if (roles.Contains("Admin"))
             {
                 return Task.FromResult(_projectRepository.GetAll().ToList());
             }
             // If user is not admin, return only projects that user is assigned to
             else
             {
-                return Task.FromResult(_projectRepository.Filter(x => x.EmployeeProjects.Any(y => y.ApplicationUser.Id == user.Id)).ToList());
+                var employeeProjects = _employeeProjectRepository.Filter(x => x.ApplicationUserId == user.Id).ToList();
+                // Get all projects that user is assigned to
+                var projects = employeeProjects.Select(x => x.Project).ToList();
+                return Task.FromResult(projects);
             }
         }
 

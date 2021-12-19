@@ -7,15 +7,17 @@ using TimesheetAPI.Model.DbModels;
 using TimesheetAPI.Repositories.DBModels;
 using TimesheetAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using TimesheetAPI.Repositories;
+using TimesheetAPI.api.Repositories.Interfaces;
 
 namespace TimesheetAPI.Services
 {
     public class TimesheetService : ITimesheetService
     {
-        private readonly RawCRUDRepository<int, Timesheet> _timesheetRepository;
+        private readonly ICRUDRepository<int, Timesheet> _timesheetRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public TimesheetService(RawCRUDRepository<int, Timesheet> timesheetRepository,
+        public TimesheetService(ICRUDRepository<int, Timesheet> timesheetRepository,
                                  UserManager<ApplicationUser> userManager)
         {
             _timesheetRepository = timesheetRepository;
@@ -38,13 +40,19 @@ namespace TimesheetAPI.Services
 
         public Task<List<Timesheet>> SearchTimesheets(SearchTimesheetQuery searchTimesheet)
         {
-            var result = _timesheetRepository.GetAll().AsQueryable();
+            IQueryable<Timesheet> result;
+            // var result = _timesheetRepository.GetAll().AsQueryable();
             var user = _userManager.FindByIdAsync(searchTimesheet.UserId).Result;
-            if (!user.UserRoles.Any(x => x.Role.Name == "Admin"))
+            // Get user roles of the user
+            var roles = _userManager.GetRolesAsync(user).Result;
+            if (!roles.Contains("Admin"))
             {
-                result = result.Where(x => x.Employees.Id == searchTimesheet.UserId);
+                result = _timesheetRepository.Filter(x => x.EmployeesId == searchTimesheet.UserId);
             }
-
+            else
+            {
+                result = _timesheetRepository.GetAll().AsQueryable();
+            }
             if (searchTimesheet.DateFrom != null)
             {
                 result = result.Where(x => x.Date >= searchTimesheet.DateFrom);

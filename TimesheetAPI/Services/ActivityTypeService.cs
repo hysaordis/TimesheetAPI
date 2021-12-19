@@ -7,14 +7,16 @@ using TimesheetAPI.Model.DbModels;
 using TimesheetAPI.Repositories.DBModels;
 using TimesheetAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using TimesheetAPI.Repositories;
+using TimesheetAPI.api.Repositories.Interfaces;
 
 namespace TimesheetAPI.Services
 {
     public class ActivityTypeService : IActivityTypeService
     {
-        private readonly RawCRUDRepository<int, ActivityType> _activityTypeRepository;
         private readonly UserManager<ApplicationUser> _userManager;
-        public ActivityTypeService(RawCRUDRepository<int, ActivityType> activityTypeRepository,
+        private readonly ICRUDRepository<int, ActivityType> _activityTypeRepository;
+        public ActivityTypeService(ICRUDRepository<int, ActivityType> activityTypeRepository,
                                     UserManager<ApplicationUser> userManager)
         {
             _activityTypeRepository = activityTypeRepository;
@@ -38,8 +40,10 @@ namespace TimesheetAPI.Services
 
         public Task<List<ActivityType>> GetActivityTypes(ApplicationUser user)
         {
+            // Get user roles of the user
+            var roles = _userManager.GetRolesAsync(user).Result;
             // If user is admin, return all projects
-            if (user.UserRoles.Any(x => x.Role.Name == "Admin"))
+            if (roles.Contains("Admin"))
             {
                 return Task.FromResult(_activityTypeRepository.GetAll().ToList());
             }

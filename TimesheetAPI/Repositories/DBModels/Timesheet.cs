@@ -29,6 +29,9 @@ namespace TimesheetAPI.Repositories.DBModels
         public int Hours { get; set; }
 
         [Required]
+        public string EmployeesId { get; set; }
+
+        [Required]
         public ApplicationUser Employees { get; set; }
     }
 }

@@ -16,6 +16,10 @@ using TimesheetAPI.api.Services;
 using TimesheetAPI.Model.DbModels;
 using TimesheetAPI.Services.Interfaces;
 using System.Text.Json;
+using TimesheetAPI.Services;
+using TimesheetAPI.Repositories;
+using TimesheetAPI.api.Repositories.Interfaces;
+using TimesheetAPI.Repositories.DBModels;
 
 namespace TimesheetAPI
 {
@@ -72,8 +76,20 @@ namespace TimesheetAPI
                     };
                 });
 
-            // Agiungiamo le dipendence
+            // add repository
+            services.AddScoped<ICRUDRepository<int, Project>, ProjectRepository>();
+            services.AddScoped<ICRUDRepository<int, EmployeeProject>, EmployeeProjectRepository>();
+            services.AddScoped<ICRUDRepository<int, Timesheet>, TimesheetRepository>();
+            services.AddScoped<ICRUDRepository<int, ActivityType>, ActivityTypeRepository>();
+
+            // add user services
             services.AddScoped<IUserService, UserService>();
+            // add proejt service
+            services.AddScoped<IProjectService, ProjectService>();
+            // add activity type service
+            services.AddScoped<IActivityTypeService, ActivityTypeService>();
+            // add timesheet service
+            services.AddScoped<ITimesheetService, TimesheetService>();
 
 
             //  ignorare il loop delle reference al infinito
