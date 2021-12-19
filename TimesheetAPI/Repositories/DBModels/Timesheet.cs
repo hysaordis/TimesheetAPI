@@ -22,6 +22,8 @@ namespace TimesheetAPI.Repositories.DBModels
         [Required]
         public ActivityType ActivityType { get; set; }
 
+
+        // Todo : convert to unix time stamp long
         [Required]
         public DateTime Date { get; set; }
 
