@@ -26,7 +26,7 @@ namespace TimesheetAPI.Controllers
         }
 
         // add employee to project (admin only)
-        [HttpPost("api/project/addEmployeeToProject")]
+        [HttpPost("addEmployeeToProject")]
         public async Task<IActionResult> AddEmployeeToProject([FromBody] Project project)
         {
             // ToDo : Crate ProjectDto and add validation
@@ -56,7 +56,7 @@ namespace TimesheetAPI.Controllers
         }
 
         [HttpGet]
-        [Route("projects/{id}")]
+        [Route("{id}")]
         // authorise admin and user
         public async Task<IActionResult> GetProjectById(int id)
         {
@@ -80,7 +80,7 @@ namespace TimesheetAPI.Controllers
         }
 
         [HttpPut]
-        [Route("projects/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> UpdateProject([FromBody] Project project)
         {
             // ToDo : Crate ProjectDto and add validation
@@ -90,7 +90,7 @@ namespace TimesheetAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("projects/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> DeleteProject(int id)
         {
             // get user from token

@@ -27,7 +27,7 @@ namespace TimesheetAPI.Controllers
         }
 
         [HttpPost]
-        [Route("api/timesheet/addorupdate")]
+        [Route("addorupdate")]
         public async Task<IActionResult> AddTimesheet([FromBody] Timesheet timesheet)
         {
             // ToDo : Add validation for timesheet
@@ -40,7 +40,7 @@ namespace TimesheetAPI.Controllers
 
         // SearchTimesheet 
         [HttpGet]
-        [Route("api/timesheet/search")]
+        [Route("search")]
         public async Task<IActionResult> SearchTimesheet([FromBody] SearchTimesheetQuery searchquery)
         {
             // get user id from token and pass it to search query

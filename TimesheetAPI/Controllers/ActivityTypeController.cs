@@ -28,7 +28,7 @@ namespace TimesheetAPI.Controllers
         }
 
         [HttpPost]
-        [Route("api/activityType/add")]
+        [Route("add")]
         public async Task<IActionResult> AddActivityTyp([FromBody] ActivityType activityType)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -37,7 +37,7 @@ namespace TimesheetAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/activityType/getAll")]
+        [Route("getAll")]
         public async Task<IActionResult> GetAllActivityTypes()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -46,7 +46,7 @@ namespace TimesheetAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/activityType/get/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> GetActivityType(int id)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -57,7 +57,7 @@ namespace TimesheetAPI.Controllers
         }
 
         [HttpPut]
-        [Route("api/activityType/update/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> UpdateActivityType([FromBody] ActivityType activityType)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -68,7 +68,7 @@ namespace TimesheetAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("api/activityType/delete/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> DeleteActivityType(int id)
         {
             var user = await _userManager.GetUserAsync(User);
