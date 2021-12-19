@@ -29,10 +29,13 @@ namespace TimesheetAPI.Services
             var result = _timesheetRepository.Find(timesheet.Id);
             if (result == null)
             {
+                // convert to UTC
+                timesheet.Date = timesheet.Date.ToUniversalTime();
                 result = _timesheetRepository.Create(timesheet);
             }
             else
             {
+                timesheet.Date = timesheet.Date.ToUniversalTime();
                 _timesheetRepository.Update(timesheet);
             }
             return Task.FromResult(result);
@@ -55,11 +58,13 @@ namespace TimesheetAPI.Services
             }
             if (searchTimesheet.DateFrom != null)
             {
-                result = result.Where(x => x.Date >= searchTimesheet.DateFrom);
+                // convert to universal time
+                result = result.Where(x => x.Date >= searchTimesheet.DateFrom.ToUniversalTime());
             }
             if (searchTimesheet.DateTo != null)
             {
-                result = result.Where(x => x.Date <= searchTimesheet.DateTo);
+                // convert to universal time
+                result = result.Where(x => x.Date <= searchTimesheet.DateTo.ToUniversalTime());
             }
             // Add search by project
             if (searchTimesheet.ProjectId != null)

@@ -40,6 +40,9 @@ namespace TimesheetAPI.Services
 
         public Task<Project> CreateProject(Project project)
         {
+            // ToDo : Check more about datetime conversion
+            project.StartDate = project.StartDate.ToUniversalTime();
+            project.EndDate = project.EndDate.ToUniversalTime();
             return Task.FromResult(_projectRepository.Create(project));
         }
 
@@ -80,8 +83,11 @@ namespace TimesheetAPI.Services
             {
                 existingProject.Name = project.Name;
                 existingProject.Description = project.Description;
-                existingProject.StartDate = project.StartDate;
-                existingProject.EndDate = project.EndDate;
+                // Convert date to UTC time
+                // ToDo : Check more about datetime conversion
+
+                existingProject.StartDate = project.StartDate.ToUniversalTime();
+                existingProject.EndDate = project.EndDate.ToUniversalTime();
                 existingProject.EmployeeProjects = project.EmployeeProjects;
                 _projectRepository.Update(existingProject);
                 return Task.FromResult(true);
